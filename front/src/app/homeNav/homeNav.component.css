@@ -1,0 +1,34 @@
+.nav-link {
+	font-size:16px;
+	display:block;
+	text-decoration: none;
+}
+.small {
+	font-size:13px;
+	color:red;
+}
+.mat-dialog-container{
+	width: 600px;
+	height: 500px;
+}
+.nav-link:hover:not(.active){
+	background-color: #111;
+	margin-top: -3px;margin-bottom: -3px;
+	border-radius: 3px;
+}
+.active{
+	background-color: rgb(153, 115, 0);
+	margin-top: -3px;margin-bottom: -3px;
+	border-radius: 3px;
+}
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+
+.costumize{
+	font-size:22px;
+	color:rgb(173, 133, 46);
+	padding-left: 10px;
+	padding-right: 10px;
+	
+}

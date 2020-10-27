@@ -1,0 +1,112 @@
+#end{
+	background-color:black;
+	color:white;
+	padding:25px;
+	clear:both;
+	text-align:center; 
+	font-size: 20px;
+}
+#signin{
+	background-color:rgb(77, 51, 0);
+	line-height:40px;
+	padding: 10px;
+	width:220px;
+	height:500px; 
+	float:left;
+}
+#choise{
+	background-color: black;
+	width: 100%;
+	height:10% ;
+
+}
+#main{
+	background-image: url("#");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	height: 530px;
+	color: red ;
+	text-align: center;
+	font-size: 50px;
+	font-family:  ink free;
+}
+#hor{
+	float: left; 
+}
+#hor a {
+	font-size:20px;
+	display:block;
+	color: white ;
+	text-align: center;
+	padding: 21px 19px ;
+	text-decoration: none;
+
+}
+#hor a:hover{
+	background-color: #111;
+}
+#hor a:active{
+	background-color: rgb(153, 115, 0);
+}
+.active {
+  background-color: rgb(153, 115, 0);}
+
+.active2 {
+  background-color: rgb(153, 115, 0);}
+.bar{
+	width: 100%;
+	height: 10%;
+	position: fixed;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+.bar2 {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 20%;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+#ver a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+#ver a.active {
+  background-color: green;
+  color: white;
+}
+
+#ver a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+#writing{
+	font-size:18px;
+}
+#hint {
+	margin-left: 15%;
+	font-style: italic;
+	color: grey;
+}
+
+.Screenshotadd {
+	margin-left: 15%;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+.Screenshotcancel {
+	margin-left: 1%;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}

@@ -1,0 +1,42 @@
+<form *ngIf="key == 1" #registerform="ngForm" (ngSubmit)="saveSkill()">
+  <h2 class="text-center text-primary">Add a new Skill</h2>
+  <hr>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="skill" [(ngModel)]="data.skill" placeholder="Skill">
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" required name="percent" [(ngModel)]="data.percent" placeholder="percentage of that skill (%) "> 
+  </div>
+
+  <div class="form-group text-center">
+    <button class="btn btn-success" type="submit">Register</button>
+    <button style="margin:10px;" class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+  </div>
+</form> 
+
+
+<form *ngIf="key == 2" #registerform="ngForm" (ngSubmit)="saveLang()">
+  <h2 class="text-center text-primary">Add a new Language</h2>
+  <hr>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="language" [(ngModel)]="data.lang" placeholder="Language">
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" required name="level" [(ngModel)]="data.level" placeholder="Your level at this language"> 
+  </div>
+
+  <div class="form-group text-center">
+    <button class="btn btn-success" type="submit">Register</button>
+    <button style="margin:10px;" class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+  </div>
+  <p class="text-left text-info">You can use one of those level : </p>
+  <p class="text-left text-secondary">
+    <span class="point">Advanced:</span> 
+      native, fluent, proficient, advanced, mother tongue, upper-intermediate.<br>
+    <span class="point">Mid-range:</span>  intermediate, conversational, competent, professional.<br>
+    <span class="point"> Beginner:</span>  elementary, beginner, basic, pre-intermediate, limited working proficiency.<br>
+  </p>
+</form> 
+

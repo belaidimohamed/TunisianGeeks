@@ -1,0 +1,30 @@
+	<div style="margin-left:20%;padding:1px 16px;height:1000px;" ><br>
+		<h1 style="color:purple;"> {{project.title}} : </h1>
+		<br>
+		<h2> Description : </h2>
+		<p id="writing" >{{project.description}} </p>
+		<h2> Screenshots : </h2>
+		<span id="hint">Recommanded: Click it to see the whole image </span>
+
+		<div style="padding-top:15px; margin:auto;width:70%;">
+			<ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+		</div>
+
+		<div class="Screenshotadd">
+			<button class="btn btn-success" (click)="addPhoto()">Add new screen Shots &nbsp;<i class="fa fa-plus" ></i></button>
+		</div>
+		<h2> Source code : </h2><br>
+		<div class="Screenshotadd">
+			<button  *ngIf="!this.CodeHideShow" class="btn btn-success" (click)="addCodeHideShow()">Show Source Code &nbsp;<i class="fa fa-eye" ></i></button>
+		</div>
+		<div class="Screenshotcancel" *ngIf="this.CodeHideShow">
+			<button class="btn btn-danger" (click)="addCodeHideShow()"> Hide source code &nbsp;<i class="fa fa-eye-slash" ></i></button><br><br>
+			<iframe style ="background-color :rgb(209, 209, 224);" width="100%" height="300px" [src]=" project.code_file | safe" name="iframe_a"></iframe>
+		</div>
+		<h2> Bugs : </h2>
+		<p id="writing"> {{project.bugs}}  </p>
+		<p></p>
+		<h2> Comments : </h2>
+			<app-comments></app-comments>
+	</div>
+ 

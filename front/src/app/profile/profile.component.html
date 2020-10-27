@@ -1,0 +1,64 @@
+<app-homeNav></app-homeNav>
+<div style="margin-top:50px">
+  <section>
+    <nav>
+      <div *ngIf="!infos.profilePicture" class="avatar">
+        <img src="../../assets/unknown.jpg" alt="yaw">
+      </div>
+      <div *ngIf="infos.profilePicture" class="avatar">
+        <img [src]="'http://127.0.0.1:8000/media/'+infos.profilePicture" alt="none">
+      </div> 
+      <h1 class="name"> {{infos.fullname}} </h1>
+      <h2 class="bio"> ---- {{infos.bio}} ---  </h2>
+      <br>
+ 
+      <h1 class="contact">Skills :</h1>   
+      <div *ngIf="JsonPipe(infos.skills)">
+      <div *ngFor="let key of JsonPipe(infos.skills)[1]" class="flex-container">
+          <div class="skill" style="flex-grow: 2">
+            {{key}}&nbsp; :
+          </div>
+         <div class="progress" style="flex-grow: 8">
+          <div class="progress-bar" role="progressbar" aria-valuenow="70" [style.width.%]="JsonPipe(infos.skills)[0][key]">
+          </div>
+        </div>
+      </div>
+      </div>
+      <div *ngIf="isOwnerIsloggin()">
+        <a class="nav-link " (click)="openSkillForm(1)"><i class="fa fa-plus costumize"></i></a>
+      </div>
+      
+      <h1 class="contact">Languages :</h1>   
+      <div *ngIf="JsonPipe(infos.languages)">
+      <div *ngFor="let key of JsonPipe(infos.languages)[1]" class="flex-container">
+          <div class="skill" style="flex-grow: 2">
+            {{key}}&nbsp; :
+          </div>
+         <div class="skill" style="flex-grow: 8">
+            {{JsonPipe(infos.languages)[0][key]}}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isOwnerIsloggin()">
+        <a class="nav-link " (click)="openSkillForm(2)"><i class="fa fa-plus costumize"></i></a>
+      </div>
+      <h1 class="contact">Contact :</h1>
+      <div class="infos">
+        <span class="fa fa-home" aria-hidden="true" ></span>&nbsp; Adress : {{infos.adress}}<br>
+        <span class="fa fa-phone" aria-hidden="true" ></span>&nbsp; Phone : {{infos.phone}} <br>
+        <span class="fa fa-envelope" aria-hidden="true" ></span>&nbsp; Email : <span style="font-size:15px;">{{infos.email}}</span>
+      </div>
+    </nav>
+    <article>
+      <h1 class="contact">Education</h1>
+    </article>
+  </section>
+</div>
+<footer>
+  <h1 class="contact">Contact :</h1>
+      <div class="infos">
+        <span class="fa fa-home" aria-hidden="true" ></span>&nbsp; Adress : {{infos.adress}}<br>
+        <span class="fa fa-phone" aria-hidden="true" ></span>&nbsp; Phone : {{infos.phone}} <br>
+        <span class="fa fa-envelope" aria-hidden="true" ></span>&nbsp; Email : <span style="font-size:15px;">{{infos.email}}</span>
+      </div>
+</footer>

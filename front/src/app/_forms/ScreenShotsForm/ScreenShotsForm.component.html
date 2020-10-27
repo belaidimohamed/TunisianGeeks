@@ -1,0 +1,15 @@
+<form enctype='multipart/form-data' #registerform="ngForm" (ngSubmit) = "addProject()">
+  <h2 class="text-center text-primary">Add a ScreenShot</h2>
+  <hr>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="legend" (change)="onLegendChange($event)" placeholder="legend">
+  </div>
+  <div class="form-group">
+    <input type="file"  required name="code_file" (change)="onFileChange($event)" placeholder="Screen Shot">
+  </div>
+  <div class="form-group text-center">
+    <button  class="btn btn-success" type="submit">Save Photo</button>
+    <button style="margin:10px;" class="btn btn-danger" type="button" (click)="cancelForm()">Cancel</button>
+  </div>
+</form>  
+

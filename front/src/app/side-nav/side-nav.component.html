@@ -1,0 +1,11 @@
+<app-nav></app-nav>
+<div style="margin-top:50px">
+<ul class="bar2">
+  <li style="font-size:25px;font-weight: bold;padding:15px;margin-top:12px;">  Programmes :  </li>
+  <li id="ver" *ngFor="let project of projects[0]">
+    <a [routerLink]="['./project',project.id]" routerLinkActive="router-link-active">{{project.title}}</a> 
+  </li>
+  <li id="ver"><a (click)="openProjectForm()"> <i class="fa fa-plus costumize"></i> </a> </li>
+</ul>  
+<router-outlet ></router-outlet>
+</div>

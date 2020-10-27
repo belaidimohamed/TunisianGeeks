@@ -1,0 +1,11 @@
+{
+    "htmlhint.documentSelector": [
+
+        "html",
+        "htm",
+    ],
+    "htmlhint.options": {
+        "attr-lowercase": false
+    },
+    "cmake.configureOnOpen": true
+}

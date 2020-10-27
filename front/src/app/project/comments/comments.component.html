@@ -1,0 +1,51 @@
+<div class="commentSection">
+   <!-- sending a comment -->
+
+  <div style="margin: 20px;">
+    <textarea type="text" placeholder=" Add a comment here .. " class ="commentadd"
+    (focus)="FocusComment()" (focusout)="FocusComment()"   [(ngModel)]="comment"></textarea><br>
+
+    <div *ngIf="onFocusComment" class="commentbtn" [ngStyle]="{'margin-left': buttonCommentMargin + '%'}">
+      <button class="btn btn-secondary" (mousedown)="cancelComment()">Cancel</button> &nbsp;
+      <button class="btn btn-success" (mousedown)="SendComment()">Add Comment</button>
+    </div>
+    <hr>  
+
+<!-- ------------------------------- showing users comments  ---------------------------------------- -->
+<div *ngFor="let comment of comments">
+    <div>  
+      <img src="../../../assets/unknown.jpg" alt="Avatar" class="avatar">
+      <strong> &nbsp;{{comment.username}} </strong>  &nbsp;  &#9702;  &nbsp; <i class="time"> {{comment.timeSent}} </i> 
+      <div class="comment">
+          {{comment.comment}}
+      </div>
+    </div>
+
+  <!-- like mechanisme -->
+
+    <div  class="jaimeR time">
+      <a class="a" type="button" (click)="LikeComment(comment.id)">
+        <i class="fa fa-thumbs-up"></i><span *ngIf="comment.jaims">&nbsp; {{comment.jaims.length}}&nbsp; </span>
+      </a>
+      &#9702; &nbsp; 
+
+  <!-- reply comment -->
+
+      <a class="a" type="button" (click)="clickReply()">
+        Reply &nbsp;<i class="fa fa-reply-all"></i>
+      </a>
+      <div *ngIf="onclickRponse">
+        <textarea type="text" placeholder=" Add a response here .. " class ="commentadd"
+        (focus)="FocusReponse()" (focusout)="FocusReponse()"  [(ngModel)]="reply"></textarea><br>
+        <div *ngIf="onFocusReponse" class="commentbtn" [ngStyle]="{'margin-left':   buttonReplyMargin + '%'}">
+          <button class="btn btn-secondary" (click)="cancelReply()">Cancel</button> &nbsp;
+          <button class="btn btn-success">Add Reply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+<br>
+<br>

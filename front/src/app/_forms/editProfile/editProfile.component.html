@@ -1,0 +1,31 @@
+<form enctype='multipart/form-data' #registerform="ngForm" (ngSubmit) = "addProject()">
+  <h2 class="text-center text-primary">Create Your Profile</h2>
+  <p class="text-center text-secondary">Submit your infos correctly to make the baseground of your profile  </p>
+  <hr>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="fullname" (change)="onfullChange($event)" placeholder="full name">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="Bio" (change)="onBioChange($event)" placeholder="Bio">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="Sex" (change)="onSexChange($event)" placeholder="Sex">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="Email" (change)="onEmailChange($event)" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <input type="file"  required name="code_file" (change)="onFileChange($event)" placeholder="Profile picture">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="Adress" (change)="onAdressChange($event)" placeholder="Adress">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" required name="Phone" (change)="onPhoneChange($event)" placeholder="Phone">
+  </div>
+  <div class="form-group text-center">
+    <button  class="btn btn-success" type="submit">Save</button>
+    <button style="margin:10px;" class="btn btn-danger" type="button" (click)="cancelForm(0)">Cancel</button>
+  </div>
+</form>  
+

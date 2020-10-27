@@ -1,0 +1,14 @@
+<form #registerform="ngForm" (ngSubmit) = "addField()">
+  <h2 class="text-center text-primary">Add a new field</h2>
+  <p class="text-center text-secondary">You can catigorize your projects by putting them in different field </p>
+  <hr>
+
+  <div class="form-group">
+    <input type="text" class="form-control" required name="title" [(ngModel)]="model.title" placeholder="title">
+  </div>
+
+  <div class="form-group text-center">
+    <button  class="btn btn-success" type="submit">Register</button>
+    <button style="margin:10px;" class="btn btn-danger" type="button" (click)="cancelField()">Cancel</button>
+  </div>
+</form> 
