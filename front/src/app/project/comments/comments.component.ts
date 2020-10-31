@@ -32,8 +32,9 @@ export class CommentsComponent implements OnInit {
               private apiGet: ApiGetService, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.comments = JSON.parse(this.route.snapshot.data.comments) ;
-    console.log(this.comments);
+    this.route.params.subscribe(params => {
+      this.comments = JSON.parse(this.route.snapshot.data.comments) ;
+    })
   }
 
   // --------------------------------------------- comment shit ---------------------------------------------

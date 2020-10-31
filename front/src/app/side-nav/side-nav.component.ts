@@ -4,7 +4,7 @@ import { ApiPostService } from './../_services/apiPost.service';
 import { ApiGetService } from './../_services/apiGet.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogConfig, MatDialog } from '@angular/material';
-import { ActivatedRoute } from '@angular/router'; // import router
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-side-nav',
@@ -16,14 +16,12 @@ export class SideNavComponent implements OnInit {
   projects: any = {} ;
   currentProject: any = {} ;
   constructor(private route: ActivatedRoute, private apiGetService: ApiGetService  ,
-                private dialog: MatDialog , private alertify: AlertifyService) {
-    this.route.params.subscribe(params => {
-      this.fieldId = params.id;
-
-      this.getProjects(this.fieldId); });
-  }
+                private dialog: MatDialog , private alertify: AlertifyService) {}
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.fieldId = params.id;
+      this.getProjects(this.fieldId); });
   }
   getProjects(id: number) {
     this.apiGetService.getProjects(id).subscribe( data => {this.projects = data ;
@@ -39,9 +37,8 @@ export class SideNavComponent implements OnInit {
     dialogconfig.data = {id: this.fieldId };
     this.dialog.open(ProjectFormComponent, dialogconfig).afterClosed().subscribe(next => {
       this.apiGetService.getProjects(this.fieldId).subscribe( data => {this.projects = data ;
-                                                           this.projects = Array.of(JSON.parse(this.projects));
-                                                          },
-                                                  error => {this.alertify.error(error); });
+                                                                       this.projects = Array.of(JSON.parse(this.projects)); },
+                                                              error => {this.alertify.error(error); });
     });
   }
  

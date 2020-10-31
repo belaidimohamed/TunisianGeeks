@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { ApiGetService } from '../_services/apiGet.service';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation, NgxGalleryImageSize } from 'ngx-gallery';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { ProjectFormComponent } from '../_forms/projectForm/projectForm.component';
 import { AlertifyService } from '../_services/alertify.service';
 
 @Component({
@@ -27,11 +26,15 @@ export class ProjectComponent implements OnInit {
 
 
    ngOnInit() {
-    this.project = this.route.snapshot.data.project ;
-    this.photos = this.route.snapshot.data.photos ;
-    console.log(this.photos);
-    // tslint:disable-next-line: radix
-    this.route.params.subscribe(params => {this.id = parseInt(params.pId); });
+    this.route.params.subscribe(params => {
+      // tslint:disable-next-line: radix
+      this.id = parseInt(params.pId);
+      this.project = this.route.snapshot.data.project ;
+      this.photos = this.route.snapshot.data.photos ;
+      this.makeGallery(this.photos);
+      this.onActivate();
+
+     });
     this.galleryOptions = [
       {   width: '600px',
           height: '400px',
@@ -95,4 +98,14 @@ export class ProjectComponent implements OnInit {
                                                   error => {this.alertify.error(error); });
     });
   }
+  onActivate() {
+    const scrollToTop = window.setInterval(() => {
+        const pos = window.pageYOffset;
+        if (pos > 0) {
+            window.scrollTo(0, pos - 30); // how far to scroll on each step
+        } else {
+            window.clearInterval(scrollToTop);
+        }
+    }, 16);
+}
 }

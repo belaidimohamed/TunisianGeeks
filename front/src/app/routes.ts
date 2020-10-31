@@ -17,7 +17,6 @@ export const appRoutes: Routes = [
 
     { path: 'myspace', component: NavComponent},
     { path: 'field/:id', component: SideNavComponent ,
-      runGuardsAndResolvers: 'always',
       children: [{
         path: 'project/:pId', component: ProjectComponent ,
         resolve: { project: ProjectResolver , photos: PhotoResolver , comments: CommentResolver}
