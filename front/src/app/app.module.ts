@@ -10,6 +10,8 @@ import { SafePipe } from './project/SafePipe.pipe';
 import { appRoutes } from './routes';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap/';
 import { RouterModule } from '@angular/router';
 import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -20,7 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { MatDatepickerModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './project/project.component';
@@ -32,6 +34,7 @@ import { FieldFormComponent } from './_forms/fieldForm/fieldForm.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HomeNavComponent } from './homeNav/homeNav.component';
 import { AcceuilComponent } from './acceuil/acceuil.component';
+import { MatFormFieldModule } from '@angular/material';
 
 
 export class CustomHammerConfig extends HammerGestureConfig  {
@@ -66,10 +69,14 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     FormsModule,
     HttpClientModule,
     BsDropdownModule.forRoot(),
-    MatDialogModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgxGalleryModule,
+    NgbModule,
+    /* angular material shit */
+    MatDialogModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
   ],
   providers: [
     ErrorInterceptorProvider,

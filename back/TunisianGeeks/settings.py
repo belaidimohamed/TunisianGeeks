@@ -26,7 +26,7 @@ SECRET_KEY = '9%(=d!%j#0#*kw!77=jv4^5ym4(_i)symt2s30=n6kdt_l95c3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','192.168.1.12']
 
 
 # Application definition
@@ -62,7 +62,7 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.TokenAuthentication',
@@ -73,6 +73,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:4200",
+    "http://192.168.1.12:4200",
 ]
 ROOT_URLCONF = 'TunisianGeeks.urls'
 

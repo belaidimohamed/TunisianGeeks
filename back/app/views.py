@@ -1,19 +1,20 @@
-from django.shortcuts import render , get_object_or_404
+import json
 from .serializers import *
 from .models import *
-from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
-from django.contrib.auth.models import User
-from rest_framework.permissions import IsAuthenticated , AllowAny 
-from .models import Field
+from .permissions import IsOwner
+
+from django.shortcuts import  get_object_or_404
+from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse , HttpResponse
-import json
-from django.views.decorators.clickjacking import xframe_options_exempt
-from rest_framework.decorators import action
+from django.contrib.auth.models import User
+
+from rest_framework import viewsets ,generics
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated , AllowAny 
+from rest_framework.decorators import action , permission_classes , api_view
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from django.core.serializers.json import DjangoJSONEncoder
 
 class CustomAuthToken(ObtainAuthToken):
 
@@ -58,10 +59,6 @@ class FieldViewSet(viewsets.ModelViewSet):
         data = json.dumps(l)
         return JsonResponse(data, safe=False)
 
-class TestViewSet(viewsets.ModelViewSet):
-    queryset = Test.objects.all()
-    serializer_class = TestSerializer
-
 #---------------------------------------------- Project shit ----------------------------------------------------------------------
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -85,10 +82,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         bugs = request.data['bugs'] 
         Project.objects.create(field,title,description,code_file,bugs)
         return HttpResponse({'message':'Project created succefully !'},status=200)
-
-
-
-
 
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all()
@@ -166,22 +159,22 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = UserProfileSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
     @action(detail=True , methods=['GET'])
     def getProfile(self,request,pk=None):
+        print('mameya')
         profile = UserProfile.objects.all().filter(user=pk).values()[0]
         data = json.dumps(profile)
         return JsonResponse(data, safe=False)
 
-    @action(detail=True , methods=['POST'])
+    @action(detail=True , methods=['POST'], permission_classes=[IsOwner])
     def editProfile(self,request,pk=None):
         user = User.objects.get(id=pk)
-        print(user)
-        print(request.POST)
-        print(request.FILES)
+        self.check_object_permissions(request, user)
         if request.method == "POST":
             fullname = request.POST['fullname']
             bio = request.POST['bio']
-            adress = request.POST['adress']
+            adress = request.POST['adress'] 
             email = request.POST['email']
             phone = request.POST['phone']
             sex = request.POST['sex']
@@ -190,36 +183,31 @@ class ProfileViewSet(viewsets.ModelViewSet):
                 fullname=fullname, skills= "{}",languages="{}",education="{}",experience="{}")
             b.save()
             return HttpResponse(status=201)
-    @action(detail=True , methods=['POST'])
+
+    @action(detail=True , methods=['POST'], permission_classes=[IsOwner])
     def addSkill(self,request,pk=None):
-        print(request.POST)
         profile = UserProfile.objects.get(user = pk)
-        print(profile.skills)
-        if request.method == "POST":
-            skills = json.loads(profile.skills)
-            skills[request.POST['skill'].capitalize()] = int(request.POST['percentage'])
-            # skills= str(skills)
-            print('---',skills)
-            profile.skills = json.dumps(skills)
-            profile.save()
-        print(profile.skills)
+        self.check_object_permissions(request, profile)
+        skills = json.loads(profile.skills)
+        skills[request.POST['skill'].capitalize()] = int(request.POST['percentage'])
+        profile.skills = json.dumps(skills)
+        profile.save()
         return HttpResponse(status=201)
-    @action(detail=True , methods=['POST'])
+
+    @action(detail=True , methods=['POST'], permission_classes=[IsOwner])
     def addEducation(self,request,pk=None):
-        print(request.POST)
-    @action(detail=True , methods=['POST'])
-    def addLang(self,request,pk=None):
-        print(request.POST)
         profile = UserProfile.objects.get(user = pk)
-        print(profile.languages)
-        if request.method == "POST":
-            languages = json.loads(profile.languages)
-            languages[request.POST['lang'].capitalize()] = request.POST['level']
-            # languages= str(languages)
-            print('---',languages)
-            profile.languages = json.dumps(languages)
-            profile.save()
-        print(profile.languages)
+        self.check_object_permissions(request, profile)
+        educ = json.loads(profile.education)
+        print(request.POST)
+
+    @action(detail=True , methods=['POST'], permission_classes=[IsOwner])
+    def addLang(self,request,pk=None):
+        profile = UserProfile.objects.get(user = pk)
+        self.check_object_permissions(request, profile)
+        languages = json.loads(profile.languages)
+        languages[request.POST['lang'].capitalize()] = request.POST['level']
+        profile.languages = json.dumps(languages)
+        profile.save()
         return HttpResponse(status=201)
-# <QueryDict: {'bio': ['i am the best'], 'adress': ['ain drahem'],
-#  'email': ['mohamedbelaidi408@gmail.com'], 'phone': ['52664796'], 'sex': ['male']}>
+

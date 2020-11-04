@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   constructor(private authService: AuthService) {}
+  BaseUrl: String;
   ngOnInit() {
        this.authService.username = localStorage.getItem('name');
 

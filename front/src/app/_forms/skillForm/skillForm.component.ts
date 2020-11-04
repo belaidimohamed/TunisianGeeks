@@ -42,8 +42,8 @@ export class SkillFormComponent implements OnInit {
                     this.alertify.success('Skill added succefully ');
                   },
           error => {
-            this.alertify.error(error.error);
-            console.log(error.error);
+            this.alertify.error(error.detail);
+            console.log(error.detail);
             this.cancel();
           });
       }
@@ -65,8 +65,8 @@ saveLang() {
                       this.alertify.success('Language added succefully ');
                     },
             error => {
-              this.alertify.error(error.error);
-              console.log(error.error);
+              this.alertify.error(error.detail);
+              console.log(error.detail);
               this.cancel();
             });
       }

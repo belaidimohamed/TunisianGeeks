@@ -5,6 +5,8 @@ import { ApiGetService } from './../_services/apiGet.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialogConfig , MatDialog } from '@angular/material';
+import { GlobalConstants } from '../global-constants';
+import {FormGroup, FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +22,11 @@ export class ProfileComponent implements OnInit {
   skillkeys: any ;
   skill: string ;
   percent: number ;
+  baseUrl = GlobalConstants.apiURL ;
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
   constructor( private route: ActivatedRoute, private apiGet: ApiGetService,
                private apiPost: ApiPostService , private dialog: MatDialog ,
                private api: ApiGetService , private authService: AuthService, ) { }

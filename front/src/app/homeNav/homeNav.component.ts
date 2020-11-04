@@ -17,6 +17,7 @@ export class HomeNavComponent implements OnInit {
   uid: any ;
   model: any = {} ;
   loginclicked: any = false ;
+  isCollapsed: false;
   decodedToken: any ;
   fields: any = {} ;
   constructor(public authService: AuthService,
@@ -28,6 +29,7 @@ export class HomeNavComponent implements OnInit {
 
 
   ngOnInit() { 
+    this.isCollapsed = false;
     this.uid = localStorage.getItem('id');
     console.log(this.uid);
     // this.GetFields() ;

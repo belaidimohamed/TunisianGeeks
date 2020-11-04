@@ -32,3 +32,10 @@
 	padding-right: 10px;
 	
 }
+
+@media (max-width: 600px) {
+	.castum {
+	margin-right: 5px ;}
+	.castum1 {
+	margin-bottom: 6px ;}
+}

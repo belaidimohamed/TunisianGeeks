@@ -17,6 +17,8 @@ export class NavComponent implements OnInit {
   uid = localStorage.getItem('id');
   model: any = {} ;
   loginclicked: any = false ;
+  isCollapsed: false;
+
   decodedToken: any ;
   fields: any = {} ;
   constructor(public authService: AuthService,

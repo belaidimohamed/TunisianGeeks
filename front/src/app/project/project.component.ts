@@ -5,6 +5,7 @@ import { ApiGetService } from '../_services/apiGet.service';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation, NgxGalleryImageSize } from 'ngx-gallery';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AlertifyService } from '../_services/alertify.service';
+import { GlobalConstants } from '../global-constants'
 
 @Component({
   selector: 'app-project',
@@ -19,7 +20,7 @@ export class ProjectComponent implements OnInit {
   url: any;
   id: number;
   CodeHideShow = false ;
-  baseUrlmedia = 'http://127.0.0.1:8000/media/';
+  baseUrlmedia = GlobalConstants.apiURL+ 'media/';
   constructor(  private route: ActivatedRoute, private apiGetService: ApiGetService  ,
                 private dialog: MatDialog , private alertify: AlertifyService ) {}
 

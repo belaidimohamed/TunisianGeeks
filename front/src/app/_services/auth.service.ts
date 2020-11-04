@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { GlobalConstants } from '../global-constants'
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = 'http://127.0.0.1:8000/';
+  baseUrl = GlobalConstants.apiURL ;
   username: string;
   s = 0;
   constructor(private http: HttpClient) { }
