@@ -85,7 +85,7 @@ export class CommentsComponent implements OnInit {
                  jaims: {},
                  project_id: this.model.project,
                  username: localStorage.getItem('name'),
-                 timeSent: dateTime.toISOString()
+                 timeSent: dateTime.toISOString(),
                });
                console.log(this.comments);
                this.alertify.success('Comment sent successfully'); },

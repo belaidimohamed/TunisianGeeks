@@ -40,7 +40,11 @@ export class ApiPostService {
   addSkill(model: any , id: number) {
     return this.http.post(this.baseUrl + 'profile/' + id + '/addSkill/' , model , {headers: this.headers1});
   }
-  addLang(model:any , id:number ) {
+  addLang(model: any , id: number ) {
     return this.http.post(this.baseUrl + 'profile/' + id + '/addLang/' , model , {headers: this.headers1});
+  }
+  addEduc(model: any , id: number ) {
+    console.log(model);
+    return this.http.post(this.baseUrl + 'profile/' + id + '/addEducation/' , model , {headers: this.headers1});
   }
 };

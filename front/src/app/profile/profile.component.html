@@ -51,20 +51,43 @@
     </nav>
     <article>
       <h1 class="contact">Education</h1>
-      <mat-form-field appearance="fill">
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-          <input matStartDate formControlName="start" placeholder="Start date">
-          <input matEndDate formControlName="end" placeholder="End date">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      
-        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-      </mat-form-field>
-      
-      <p>Selected range: {{range.value | json}}</p>
+      <div class="education" *ngIf="educations">
+        <div *ngFor="let key of educations[1]" >
+           <div class="flex-container mb-4">
+             <span class="maindate">{{educations[0][key]['startDate'] | date:'yyyy'}} - {{educations[0][key]['endDate'] | date:'yyyy'}} :</span> 
+             <div class="mainContent"> 
+              {{educations[0][key]['title']}} , {{educations[0][key]['degree']}} <br>  
+              <span class="maindescr"> &#8226; &nbsp;{{educations[0][key]['description']}}</span>
+             </div>
+            </div>
+        </div>
+      </div>
+      <button *ngIf="!educShow" class="btn btn-success" (click)="educShow = !educShow">Add School</button>
+      <form *ngIf="educShow" class="example-form">
+        <mat-form-field class="example-full-width notdate">
+          <input matInput [(ngModel)]="model.title" placeholder="School" name="school">
+        </mat-form-field><br>
+        <mat-form-field class="example-full-width notdate">
+          <input matInput [(ngModel)]="model.degree" placeholder="Degree" name="degree">
+        </mat-form-field><br>
+        <mat-form-field class="example-full-width notdate">
+          <textarea matInput [(ngModel)]="model.description" placeholder="Description ( Not required )" name="descr"></textarea>
+        </mat-form-field><br>
+
+        <mat-form-field  class="example-full-width date mr-4">
+          <input matInput [(ngModel)]="model.startDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Starting date" name="start">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker style = "color:black;" #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field  class="example-full-width date">
+          <input matInput [(ngModel)]="model.endDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" placeholder="Ending date" name="end">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker style = "color:black;" #picker1 ></mat-datepicker>
+        </mat-form-field>
+        <br><br>
+    </form>
+    <button *ngIf="educShow" class="btn btn-secondary mr-2"  (click)="educShow = !educShow">Cancel</button>
+    <button *ngIf="educShow" class="btn btn-success" style="width:80px;" (click)="addEducation()">Save</button>
       
     </article>
   </section>

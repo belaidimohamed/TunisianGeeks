@@ -199,7 +199,14 @@ class ProfileViewSet(viewsets.ModelViewSet):
         profile = UserProfile.objects.get(user = pk)
         self.check_object_permissions(request, profile)
         educ = json.loads(profile.education)
-        print(request.POST)
+        temp = {}
+        for i in request.POST :
+            temp[i] = request.POST[i]
+        educ[len(educ)+1] = temp
+        profile.education = json.dumps(educ)
+        profile.save()
+        print(educ)
+        return HttpResponse(status=201)
 
     @action(detail=True , methods=['POST'], permission_classes=[IsOwner])
     def addLang(self,request,pk=None):

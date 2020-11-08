@@ -1,52 +1,52 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" [routerLink]="['/home']">Tunisian Geeks</a>
-      <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
-          <span class="navbar-toggler-icon"></span>
-      </button>
+  <a class="navbar-brand" [routerLink]="['/home']">Tunisian Geeks</a>
+  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
+      <span class="navbar-toggler-icon"></span>
+  </button>
 
-      <div class="collapse navbar-collapse " [ngbCollapse]="isCollapsed">
-        <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
+  <div class="collapse navbar-collapse " [ngbCollapse]="!isCollapsed">
+    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
 
-          <li *ngFor="let field of fields[0]"  class="nav-item">
-            <a class="nav-link "  [routerLink]="['/field', field.id]"
-            routerLinkActive="router-link-active"  >{{field.title}}</a> 
-            <!--  -->
-          </li> 
+      <li *ngFor="let field of fields[0]"  class="nav-item">
+        <a class="nav-link "  [routerLink]="['/field', field.id]"
+        routerLinkActive="router-link-active"  >{{field.title}}</a> 
+        <!--  -->
+      </li> 
 
-          <li class="nav-item">
-            <a class="nav-link " (click)="openFieldForm()"><i class="fa fa-plus costumize"></i></a>
-          </li>
+      <li class="nav-item">
+        <a class="nav-link " (click)="openFieldForm()"><i class="fa fa-plus costumize"></i></a>
+      </li>
 
-        </ul>
-        <div class="navbar-nav ml-auto">
+    </ul>
+    <div class="navbar-nav ml-auto">
 
-        <div *ngIf="loggedIn()" class="dropdown  ml-auto" dropdown>
-          <a class="dropdown-toggle text-white" dropdownToggle>
-            <span class="fa fa-user" aria-hidden="true" ></span>&nbsp; Welcome {{ this.authService.username | titlecase }} 
-          </a>
-          <div class="dropdown-menu mt-3" *dropdownMenu>
-            <a class="dropdown-item " [routerLink]="['/profile',uid]"
-            routerLinkActive="router-link-active"><i class="fa fa-user"></i> show profile</a>
-            <a class="dropdown-item" (click)="openEditProfileForm()" ><i class="fa fa-user"></i> Edit profile</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out"></i>Log out</a>
-          </div>
-        </div>
-        &nbsp;&nbsp;
-          <a *ngIf = "!loggedIn() && !loginclicked"  (click)="loginClicked()" class="nav-link blue">
-             Log in  &nbsp; <i class="fa fa-sign-in"></i>
-          </a>
-          <a *ngIf = "!loggedIn() && !loginclicked"  (click)="openRegisterForm()" class="nav-link blue">
-            sign up  &nbsp; <i class="fa fa-user-plus"></i>
-          </a>
+    <div *ngIf="loggedIn()" class="dropdown  ml-auto" dropdown>
+      <a class="dropdown-toggle text-white" dropdownToggle>
+        <span class="fa fa-user" aria-hidden="true" ></span>&nbsp; Welcome {{ this.authService.username | titlecase }} 
+      </a>
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item " [routerLink]="['/profile',uid]"
+        routerLinkActive="router-link-active"><i class="fa fa-user"></i> show profile</a>
+        <a class="dropdown-item" (click)="openEditProfileForm()" ><i class="fa fa-user"></i> Edit profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out"></i>Log out</a>
       </div>
+    </div>
+    &nbsp;&nbsp;
+      <a *ngIf = "!loggedIn() && !loginclicked"  (click)="loginClicked()" class="nav-link blue">
+         Log in  &nbsp; <i class="fa fa-sign-in"></i>
+      </a>
+      <a *ngIf = "!loggedIn() && !loginclicked"  (click)="openRegisterForm()" class="nav-link blue">
+        sign up  &nbsp; <i class="fa fa-user-plus"></i>
+      </a>
+  </div>
 
-        <form *ngIf = "loginclicked && !loggedIn()" #loginForm = "ngForm" class="form-inline my-2 my-lg-0" (ngSubmit) = "login()">
-          <input class="form-control mr-sm-2" type="text" name="username"  placeholder="Username" required [(ngModel)] = "model.username" >
-          <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)] = "model.password">
-          <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0 mr-sm-2" type="submit">Login</button>
-          <button (click) = "loginClicked()" class="btn btn-secondary my-2 my-sm-0">Cancel</button>
-        </form>
-      
-      </div>
-    </nav>
+    <form *ngIf = "loginclicked && !loggedIn()" #loginForm = "ngForm" class="form-inline my-2 my-lg-0" (ngSubmit) = "login()">
+      <input class="form-control mr-sm-2" type="text" name="username"  placeholder="Username" required [(ngModel)] = "model.username" >
+      <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)] = "model.password">
+      <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0 mr-sm-2" type="submit">Login</button>
+      <button (click) = "loginClicked()" class="btn btn-secondary my-2 my-sm-0">Cancel</button>
+    </form>
+  
+  </div>
+</nav>

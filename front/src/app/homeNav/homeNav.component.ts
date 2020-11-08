@@ -1,6 +1,5 @@
 import { Router } from '@angular/router';
 import { ApiGetService } from './../_services/apiGet.service';
-import { FieldFormComponent } from './../_forms/fieldForm/fieldForm.component';
 import { AlertifyService } from './../_services/alertify.service';
 import { RegisterComponent } from './../_forms/register/register.component';
 import { AuthService } from './../_services/auth.service';

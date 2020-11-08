@@ -13,7 +13,10 @@ article{
    -webkit-flex: 3;
   -ms-flex: 3;
   flex: 3;
-  background-color: #f1f1f1;
+  /* background-image:url('../../assets/background.png');
+    background-color: #686464; 
+    background-position: center; 
+    background-size: cover; */
   padding: 20px;
 }
 .avatar{
@@ -71,11 +74,6 @@ article{
     width: 100px;
     border-radius: 5px;
 }
-
-.skillStyle{
-
-}
-
 .progress-bar{
     background-color:green;
 }
@@ -93,6 +91,9 @@ footer {
   display: none;
 }
 @media (max-width: 600px) {
+    .avatar{
+        margin-left: 20%;
+    }
   section {
     -webkit-flex-direction: column;
     flex-direction: column;
@@ -112,34 +113,44 @@ footer {
 
 }
 }
+/* -------------------------------------- education form css ------------------------------------------------*/
 
+.notdate {
+    width:350px;
+}
+.date {
+    width:170px;
+}
+@media(max-width: 370px){
+    .notdate {
+        width:300px;
+    }
+    .date {
+        width:130px;
+    }
+}
+::ng-deep.mat-form-field-underline {
+ /*change color of underline*/
+ background-color: gray !important;
+} 
+::ng-deep .mat-form-field-label {
+    /*change color of label*/
+    color: gray !important;
+   }
+   
+mat-datepicker-toggle {
+    color: gray !important;
+}
+/* --------------------------------------- education css ---------------------------------------*/
+.education {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.maindate {
+    width:7rem;
+    color:grey;
+}
 
-/*@media(max-width: 700px){
-    .avatar{
-        margin-left: 6%;
-    }
-    .avatar img {
-        width: 100px;
-        height: 100px;
-        max-width: 100px;
-        max-height: 100px;
-    }
-    .sidebar{
-        background-color:  rgb(43, 42, 39);
-        height: 100%;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        overflow-x: hidden;
-        padding-top: 20px;
-    }
-    .name{
-        margin-left: 17%;
-        font-size: large;
-      
-    }
- 
-}*/
-
-/* rgb(153, 115, 0); */
+.mainContent .maindescr {
+    color:grey;
+}

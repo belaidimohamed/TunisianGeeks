@@ -1,3 +1,4 @@
+import { NavComponent } from './nav/nav.component';
 import { ScreenShotsFormComponent } from './_forms/ScreenShotsForm/ScreenShotsForm.component';
 import { SkillFormComponent } from './_forms/skillForm/skillForm.component';
 import { EditProfileComponent } from './_forms/editProfile/editProfile.component';
@@ -22,11 +23,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MatDatepickerModule } from '@angular/material';
+import { MatDatepickerModule, MatInputModule, MatNativeDateModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './project/project.component';
-import { NavComponent } from './nav/nav.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { RegisterComponent } from './_forms/register/register.component';
 import { ProjectFormComponent } from './_forms/projectForm/projectForm.component';
@@ -46,8 +46,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
 @NgModule({
   declarations: [
     AppComponent,
-    ProjectComponent,
     NavComponent,
+    ProjectComponent,
     SideNavComponent,
     RegisterComponent,
     ProfileComponent,
@@ -60,7 +60,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       HomeNavComponent,
       AcceuilComponent,
       EditProfileComponent,
-      SkillFormComponent
+      SkillFormComponent,
+    
    ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -76,7 +77,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     /* angular material shit */
     MatDialogModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     ErrorInterceptorProvider,
