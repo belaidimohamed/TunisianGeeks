@@ -23,7 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MatDatepickerModule, MatInputModule, MatNativeDateModule } from '@angular/material';
+import { MatDatepickerModule, MatInputModule, MatNativeDateModule, MatSlideToggleModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './project/project.component';
@@ -76,6 +76,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     NgbModule,
     /* angular material shit */
     MatDialogModule,
+    MatSlideToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,

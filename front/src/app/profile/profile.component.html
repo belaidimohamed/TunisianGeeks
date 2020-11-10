@@ -24,7 +24,7 @@
         </div>
       </div>
       </div>
-      <div *ngIf="isOwnerIsloggin()">
+      <div *ngIf="isOwnerIsloggin() && devMode">
         <a class="nav-link " (click)="openSkillForm(1)"><i class="fa fa-plus costumize"></i></a>
       </div>
       
@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isOwnerIsloggin()">
+      <div *ngIf="isOwnerIsloggin() && devMode">
         <a class="nav-link " (click)="openSkillForm(2)"><i class="fa fa-plus costumize"></i></a>
       </div>
       <h1 class="contact">Contact :</h1>
@@ -49,7 +49,19 @@
         <span class="fa fa-envelope" aria-hidden="true" ></span>&nbsp; Email : <span style="font-size:15px;">{{infos.email}}</span>
       </div>
     </nav>
+    
+
+
+<!--  ----------------------------------------------- Right Side --------------------------------------------------- --> 
+    
+
     <article>
+      <div class="devmod" *ngIf="isOwnerIsloggin()">
+        <mat-slide-toggle color="primary" [(ngModel)]="devMode">Developper mode :  &nbsp;
+          <span style="color:rgb(13, 202, 13)" *ngIf="devMode">On</span>
+          <span  style="color:red" *ngIf="!devMode">Off</span>
+        </mat-slide-toggle>
+      </div>
       <h1 class="contact">Education</h1>
       <div class="education" *ngIf="educations">
         <div *ngFor="let key of educations[1]" >
@@ -62,8 +74,10 @@
             </div>
         </div>
       </div>
-      <button *ngIf="!educShow" class="btn btn-success" (click)="educShow = !educShow">Add School</button>
-      <form *ngIf="educShow" class="example-form">
+      <div *ngIf="isOwnerIsloggin() && devMode">
+        <a  *ngIf="!educShow" class="nav-link " (click)="educShow = !educShow"><i class="fa fa-plus costumize"></i></a>
+      </div>
+      <form *ngIf="educShow">
         <mat-form-field class="example-full-width notdate">
           <input matInput [(ngModel)]="model.title" placeholder="School" name="school">
         </mat-form-field><br>
@@ -89,6 +103,36 @@
     <button *ngIf="educShow" class="btn btn-secondary mr-2"  (click)="educShow = !educShow">Cancel</button>
     <button *ngIf="educShow" class="btn btn-success" style="width:80px;" (click)="addEducation()">Save</button>
       
+
+    <h1 class="contact mt-4">Experience</h1>
+    <div *ngIf="isOwnerIsloggin() && devMode">
+      <a  *ngIf="!expShow" class="nav-link " (click)="expShow = !expShow"><i class="fa fa-plus costumize"></i></a>
+    </div>
+    <form *ngIf="expShow">
+      <mat-form-field class="example-full-width notdate">
+        <input matInput [(ngModel)]="model.title" placeholder="School" name="school">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width notdate">
+        <input matInput [(ngModel)]="model.degree" placeholder="Degree" name="degree">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width notdate">
+        <textarea matInput [(ngModel)]="model.description" placeholder="Description ( Not required )" name="descr"></textarea>
+      </mat-form-field><br>
+
+      <mat-form-field  class="example-full-width date mr-4">
+        <input matInput [(ngModel)]="model.startDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Starting date" name="start">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker style = "color:black;" #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field  class="example-full-width date">
+        <input matInput [(ngModel)]="model.endDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" placeholder="Ending date" name="end">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker style = "color:black;" #picker1 ></mat-datepicker>
+      </mat-form-field>
+      <br>
+  </form>
+  <button *ngIf="expShow" class="btn btn-secondary mr-2"  (click)="expShow = !expShow">Cancel</button>
+  <button *ngIf="expShow" class="btn btn-success" style="width:80px;" (click)="addEducation()">Save</button>
     </article>
   </section>
 </div>

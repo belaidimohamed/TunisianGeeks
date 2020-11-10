@@ -18,6 +18,8 @@ export class ProfileComponent implements OnInit {
   maxDate = new Date(2029, 1);
   onaddSkill = false ;
   educShow = false ;
+  devMode = true ; /* if the user is owner he can choose how to see his profile dev mode or no */
+  expShow = false ;
   model: any = {} ;
   infos: any = {};
   id: string ;
@@ -44,10 +46,15 @@ export class ProfileComponent implements OnInit {
     if ( this.loggedIn() ) {
       if ( this.id == localStorage.getItem('id') ) {
         return true;
-      }}
-    return false ;
+      }
+    } else {
+        return false ;
+    }
   }
-
+  developerMode() {
+    this.devMode = !this.devMode ;
+    return this.devMode ;
+  }
   JsonPipe(data: string) {
     // tslint:disable-next-line: triple-equals
     if (data == '{}') {
