@@ -79,22 +79,22 @@
       </div>
       <form *ngIf="educShow">
         <mat-form-field class="example-full-width notdate">
-          <input matInput [(ngModel)]="model.title" placeholder="School" name="school">
+          <input matInput [(ngModel)]="EdModel.title" placeholder="School" name="school">
         </mat-form-field><br>
         <mat-form-field class="example-full-width notdate">
-          <input matInput [(ngModel)]="model.degree" placeholder="Degree" name="degree">
+          <input matInput [(ngModel)]="EdModel.degree" placeholder="Degree" name="degree">
         </mat-form-field><br>
         <mat-form-field class="example-full-width notdate">
-          <textarea matInput [(ngModel)]="model.description" placeholder="Description ( Not required )" name="descr"></textarea>
+          <textarea matInput [(ngModel)]="EdModel.description" placeholder="Description ( Not required )" name="descr"></textarea>
         </mat-form-field><br>
 
         <mat-form-field  class="example-full-width date mr-4">
-          <input matInput [(ngModel)]="model.startDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Starting date" name="start">
+          <input matInput [(ngModel)]="EdModel.startDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Starting date" name="start">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker style = "color:black;" #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field  class="example-full-width date">
-          <input matInput [(ngModel)]="model.endDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" placeholder="Ending date" name="end">
+          <input matInput [(ngModel)]="EdModel.endDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" placeholder="Ending date" name="end">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker style = "color:black;" #picker1 ></mat-datepicker>
         </mat-form-field>
@@ -110,26 +110,41 @@
     </div>
     <form *ngIf="expShow">
       <mat-form-field class="example-full-width notdate">
-        <input matInput [(ngModel)]="model.title" placeholder="School" name="school">
+        <input matInput [(ngModel)]="ExpModel.jobTitle" placeholder="Job title" name="job">
       </mat-form-field><br>
-      <mat-form-field class="example-full-width notdate">
-        <input matInput [(ngModel)]="model.degree" placeholder="Degree" name="degree">
-      </mat-form-field><br>
-      <mat-form-field class="example-full-width notdate">
-        <textarea matInput [(ngModel)]="model.description" placeholder="Description ( Not required )" name="descr"></textarea>
-      </mat-form-field><br>
-
       <mat-form-field  class="example-full-width date mr-4">
-        <input matInput [(ngModel)]="model.startDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Starting date" name="start">
+        <input matInput [(ngModel)]="ExpModel.startDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Starting date" name="start">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker style = "color:black;" #picker></mat-datepicker>
       </mat-form-field>
       <mat-form-field  class="example-full-width date">
-        <input matInput [(ngModel)]="model.endDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" placeholder="Ending date" name="end">
+        <input matInput [(ngModel)]="ExpModel.endDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" placeholder="Ending date" name="end">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker style = "color:black;" #picker1 ></mat-datepicker>
       </mat-form-field>
       <br>
+      <mat-form-field class="example-full-width notdate">
+        <input matInput [(ngModel)]="ExpModel.employer" placeholder="Employer" name="employer">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width notdate">
+        <input matInput [(ngModel)]="ExpModel.location" placeholder="Location" name="location">
+      </mat-form-field><br>
+      <mat-form-field class="chip-list notdate">
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <input placeholder="New description"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)"><br>
+          <mat-chip *ngFor="let descr of descriptions" [selectable]="selectable"
+                   [removable]="removable" (removed)="remove(descr)">
+            {{descr.name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </mat-form-field><br><br>
+
+      
   </form>
   <button *ngIf="expShow" class="btn btn-secondary mr-2"  (click)="expShow = !expShow">Cancel</button>
   <button *ngIf="expShow" class="btn btn-success" style="width:80px;" (click)="addEducation()">Save</button>

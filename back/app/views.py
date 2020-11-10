@@ -209,6 +209,20 @@ class ProfileViewSet(viewsets.ModelViewSet):
         return HttpResponse(status=201)
 
     @action(detail=True , methods=['POST'], permission_classes=[IsOwner])
+    def addExperience(self,request,pk=None):
+        profile = UserProfile.objects.get(user = pk)
+        self.check_object_permissions(request, profile)
+        exp = json.loads(profile.experience)
+        temp = {}
+        for i in request.POST :
+            temp[i] = request.POST[i]
+        exp[len(exp)+1] = temp
+        profile.experience = json.dumps(exp)
+        profile.save()
+        print(exp)
+        return HttpResponse(status=201)
+
+    @action(detail=True , methods=['POST'], permission_classes=[IsOwner])
     def addLang(self,request,pk=None):
         profile = UserProfile.objects.get(user = pk)
         self.check_object_permissions(request, profile)

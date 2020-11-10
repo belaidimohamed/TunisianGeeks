@@ -163,3 +163,6 @@ mat-datepicker-toggle {
         margin-bottom: 1px;
     }
 }
+chip-list {
+    width: 100%;
+}

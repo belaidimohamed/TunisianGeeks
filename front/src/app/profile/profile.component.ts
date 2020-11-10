@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialogConfig , MatDialog } from '@angular/material';
 import { GlobalConstants } from '../global-constants';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material/chips';
 
 @Component({
   selector: 'app-profile',
@@ -14,13 +16,22 @@ import { GlobalConstants } from '../global-constants';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  descriptions = [];
+
+
   minDate = new Date(2000, 1);
   maxDate = new Date(2029, 1);
   onaddSkill = false ;
   educShow = false ;
   devMode = true ; /* if the user is owner he can choose how to see his profile dev mode or no */
   expShow = false ;
-  model: any = {} ;
+  EdModel: any = {} ;
+  ExpModel: any = {} ;
   infos: any = {};
   id: string ;
   skillJson: any = {};
@@ -64,21 +75,44 @@ export class ProfileComponent implements OnInit {
     }
   }
   addEducation() {
-    console.log(this.model.description);
-    if (!this.model.title || !this.model.degree || !this.model.startDate || !this.model.endDate) {
+    console.log(this.EdModel.description);
+    if (!this.EdModel.title || !this.EdModel.degree || !this.EdModel.startDate || !this.EdModel.endDate) {
       this.alertify.warning('You should fill al the fileds before saving');
       return false;
     }
     const modelJ = new FormData();
-    modelJ.append('title', this.model.title);
-    modelJ.append('degree', this.model.degree);
-    modelJ.append('description', this.model.description);
-    modelJ.append('startDate', this.model.startDate);
-    modelJ.append('endDate', this.model.endDate);
+    modelJ.append('title', this.EdModel.title);
+    modelJ.append('degree', this.EdModel.degree);
+    modelJ.append('description', this.EdModel.description);
+    modelJ.append('startDate', this.EdModel.startDate);
+    modelJ.append('endDate', this.EdModel.endDate);
     // tslint:disable-next-line: radix
     this.apiPost.addEduc(modelJ, parseInt(localStorage.getItem('id'))).subscribe(
       next => { this.educShow = false ;
                 this.alertify.success('Education added succefully ');
+              },
+      error => {
+        this.alertify.error(error.detail);
+        console.log(error.detail);
+      });
+  }
+  addExperience() {
+    // tslint:disable-next-line: max-line-length
+    if (!this.ExpModel.jobTitle || !this.ExpModel.employer || !this.ExpModel.location || !this.ExpModel.startDate || !this.ExpModel.endDate) {
+      this.alertify.warning('You should fill al the fileds before saving');
+      return false;
+    }
+    const modelJ = new FormData();
+    modelJ.append('jobTitle', this.ExpModel.jobTitle);
+    modelJ.append('employer', this.ExpModel.employer);
+    modelJ.append('location', this.ExpModel.location);
+    modelJ.append('startDate', this.ExpModel.startDate);
+    modelJ.append('endDate', this.ExpModel.endDate);
+    modelJ.append('description', JSON.stringify(this.descriptions));
+    // tslint:disable-next-line: radix
+    this.apiPost.addExp(modelJ, parseInt(localStorage.getItem('id'))).subscribe(
+      next => { this.educShow = false ;
+                this.alertify.success('Job added succefully ');
               },
       error => {
         this.alertify.error(error.detail);
@@ -97,5 +131,28 @@ export class ProfileComponent implements OnInit {
           this.infos = JSON.parse(results);
         });
     });
+  }
+/* -------------------------------------- little chips shit ----------------------------------------------------*/
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.descriptions.push({name: value.trim()});
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(decr: any): void {
+    const index = this.descriptions.indexOf(decr);
+
+    if (index >= 0) {
+      this.descriptions.splice(index, 1);
+    }
   }
 }
