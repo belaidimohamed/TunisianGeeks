@@ -69,7 +69,7 @@
              <span class="maindate">{{educations[0][key]['startDate'] | date:'yyyy'}} - {{educations[0][key]['endDate'] | date:'yyyy'}} :</span> 
              <div class="mainContent"> 
               {{educations[0][key]['title']}} , {{educations[0][key]['degree']}} <br>  
-              <span class="maindescr"> &#8226; &nbsp;{{educations[0][key]['description']}}</span>
+              <span *ngIf="educations[0][key]['description'] != 'undefined'" class="maindescr"> &#8226; &nbsp;{{educations[0][key]['description']}}</span>
              </div>
             </div>
         </div>
@@ -105,6 +105,22 @@
       
 
     <h1 class="contact mt-4">Experience</h1>
+    <div class="education" *ngIf="experiences">
+      <div *ngFor="let key of experiences[1]" >
+         <div class="flex-container mb-4">
+           <span class="maindate">{{experiences[0][key]['startDate'] | date:'yyyy'}} - 
+             <span *ngIf="experiences[0][key]['endDate'] != 'null' ">{{experiences[0][key]['endDate'] | date:'yyyy'}}</span>
+             <span *ngIf="experiences[0][key]['endDate'] == 'null' ">Today</span> :
+           </span> 
+           <div class="mainContent"> 
+            {{experiences[0][key]['jobTitle']}} , {{experiences[0][key]['location']}} <br> 
+            <div *ngFor="let descr of stringtolist(experiences[0][key]['description'])">
+              <span class="maindescr"> &#8226; &nbsp;{{descr.name}}</span>
+            </div>
+           </div>
+          </div>
+      </div>
+    </div>
     <div *ngIf="isOwnerIsloggin() && devMode">
       <a  *ngIf="!expShow" class="nav-link " (click)="expShow = !expShow"><i class="fa fa-plus costumize"></i></a>
     </div>
@@ -117,12 +133,16 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker style = "color:black;" #picker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field  class="example-full-width date">
+      <mat-form-field class="example-full-width date">
         <input matInput [(ngModel)]="ExpModel.endDate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" placeholder="Ending date" name="end">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker style = "color:black;" #picker1 ></mat-datepicker>
       </mat-form-field>
       <br>
+      <div class=" mt-1 mb-1 ml-2">
+        <i class="form-check-label" style="color:grey;">Keep ending date field empty if you still in that job</i>
+      </div>
+      
       <mat-form-field class="example-full-width notdate">
         <input matInput [(ngModel)]="ExpModel.employer" placeholder="Employer" name="employer">
       </mat-form-field><br>
@@ -147,7 +167,7 @@
       
   </form>
   <button *ngIf="expShow" class="btn btn-secondary mr-2"  (click)="expShow = !expShow">Cancel</button>
-  <button *ngIf="expShow" class="btn btn-success" style="width:80px;" (click)="addEducation()">Save</button>
+  <button *ngIf="expShow" class="btn btn-success" style="width:80px;" (click)="addExperience()">Save</button>
     </article>
   </section>
 </div>

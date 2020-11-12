@@ -39,15 +39,16 @@ export class ProfileComponent implements OnInit {
   skill: string ;
   percent: number ;
   educations: any ;
+  experiences: any ;
   baseUrl = GlobalConstants.apiURL ;
-  constructor( private route: ActivatedRoute, private apiGet: ApiGetService, private alertify: AlertifyService,
+  constructor( private route: ActivatedRoute, private alertify: AlertifyService,
                private apiPost: ApiPostService , private dialog: MatDialog ,
-               private api: ApiGetService , private authService: AuthService, ) { }
+               private apiGet: ApiGetService , private authService: AuthService, ) { }
 
   ngOnInit() {
     this.infos = JSON.parse(this.route.snapshot.data.profile) ;
     this.educations = this.JsonPipe(this.infos.education);
-    console.log(this.educations);
+    this.experiences = this.JsonPipe(this.infos.experience);
   }
   loggedIn() {
     return  this.authService.loggedIn();
@@ -74,6 +75,9 @@ export class ProfileComponent implements OnInit {
       return [JSON.parse(data) , Object.keys(JSON.parse(data))] ;
     }
   }
+  stringtolist(data: string) {
+    return JSON.parse(data);
+  }
   addEducation() {
     console.log(this.EdModel.description);
     if (!this.EdModel.title || !this.EdModel.degree || !this.EdModel.startDate || !this.EdModel.endDate) {
@@ -88,7 +92,12 @@ export class ProfileComponent implements OnInit {
     modelJ.append('endDate', this.EdModel.endDate);
     // tslint:disable-next-line: radix
     this.apiPost.addEduc(modelJ, parseInt(localStorage.getItem('id'))).subscribe(
-      next => { this.educShow = false ;
+      next => { 
+                this.apiGet.getProfile(parseInt(localStorage.getItem('id'))).subscribe((results: string) => {
+                  this.infos = JSON.parse(results);
+                  this.educations = this.JsonPipe(this.infos.education);
+                });
+                this.educShow = false ;
                 this.alertify.success('Education added succefully ');
               },
       error => {
@@ -98,9 +107,12 @@ export class ProfileComponent implements OnInit {
   }
   addExperience() {
     // tslint:disable-next-line: max-line-length
-    if (!this.ExpModel.jobTitle || !this.ExpModel.employer || !this.ExpModel.location || !this.ExpModel.startDate || !this.ExpModel.endDate) {
+    if (!this.ExpModel.jobTitle || !this.ExpModel.employer || !this.ExpModel.location || !this.ExpModel.startDate ) {
       this.alertify.warning('You should fill al the fileds before saving');
       return false;
+    }
+    if (!this.ExpModel.endDate ) {
+      this.ExpModel.endDate = null ;
     }
     const modelJ = new FormData();
     modelJ.append('jobTitle', this.ExpModel.jobTitle);
@@ -111,7 +123,12 @@ export class ProfileComponent implements OnInit {
     modelJ.append('description', JSON.stringify(this.descriptions));
     // tslint:disable-next-line: radix
     this.apiPost.addExp(modelJ, parseInt(localStorage.getItem('id'))).subscribe(
-      next => { this.educShow = false ;
+      next => { 
+                this.apiGet.getProfile(parseInt(localStorage.getItem('id'))).subscribe((results: string) => {
+                  this.infos = JSON.parse(results);
+                  this.experiences = this.JsonPipe(this.infos.experience);
+                });
+                this.educShow = false ;
                 this.alertify.success('Job added succefully ');
               },
       error => {
@@ -127,7 +144,7 @@ export class ProfileComponent implements OnInit {
     dialogconfig.data = {key: cle};
     this.dialog.open(SkillFormComponent, dialogconfig).afterClosed().subscribe(next => {
       // tslint:disable-next-line: radix
-    this.api.getProfile(parseInt(localStorage.getItem('id'))).subscribe((results: string) => {
+    this.apiGet.getProfile(parseInt(localStorage.getItem('id'))).subscribe((results: string) => {
           this.infos = JSON.parse(results);
         });
     });
