@@ -35,9 +35,6 @@ class UserViewSet(viewsets.ModelViewSet):
     
     authentication_classes = (TokenAuthentication,)
     permission_classes = (AllowAny,)
-
-    print('ce50bba92ff107daa7e60b97a6c54f196194ec51')
-
 class FieldViewSet(viewsets.ModelViewSet):
     queryset = Field.objects.all()
     serializer_class = FieldSerializer
@@ -68,10 +65,42 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     @action(detail=True , methods=['GET'])
+    def getComments(self,request,pk=None):
+        comments = Project.objects.all().filter(id=pk).values('comments')[0]['comments']
+        comments = json.loads(comments)
+        for i in range(len(comments)) :
+            infos = UserProfile.objects.all().filter(user=comments[i]['user']).values('fullname','profilePicture')[0]
+            comments[i].update(infos)
+        data = json.dumps(comments)
+        return JsonResponse(data, safe=False)
+
+    @action(detail=True , methods=['GET'])
     def getProjects(self,request,pk=None):
         projects = Project.objects.all().filter(field=pk).values()
         data = json.dumps(list(projects))
         return JsonResponse(data, safe=False)
+
+    @action(detail=True , methods=['POST'])
+    def Like(self,request,pk=None):
+        project = Project.objects.get(id = pk)
+        comments = json.loads(project.comments)
+        uid = int(request.data['userId'])
+        cid = int(request.data['commentId'])
+        if uid in set().union(*(d.values() for d in comments[cid]['jaims'])) :
+            comments[cid]['jaims'] =  [i for i in comments[cid]['jaims'] if (i['id']!=uid)]
+            project.comments = json.dumps(comments)
+        else:
+            x={}
+            name = UserProfile.objects.all().filter(user=uid).values('fullname')[0]['fullname']
+            x['name'] = name
+            x['id'] = uid
+            x['type'] = 'thumb'
+            comments[cid]['jaims'].append(x)
+            project.comments = json.dumps(comments)
+        project.save()
+        return HttpResponse(status=200)
+
+
 
     @action(detail=True , methods=['POST'])
     def post(self,request,*args,**kwargs):
@@ -80,8 +109,22 @@ class ProjectViewSet(viewsets.ModelViewSet):
         description = request.data['description'] 
         code_file = request.data['code_file'] 
         bugs = request.data['bugs'] 
-        Project.objects.create(field,title,description,code_file,bugs)
+        Project.objects.create(field,title,description,code_file,bugs,comments="[]")
         return HttpResponse({'message':'Project created succefully !'},status=200)
+
+    @action(detail=True , methods=['POST'])
+    def addComment(self,request,pk=None):
+        project = Project.objects.get(id = pk)
+        # self.check_object_permissions(request, project)
+        comments = json.loads(project.comments)
+        temp = {}
+        temp['id'] = len(comments)
+        for i in request.data :
+            temp[i] = request.data[i]
+        comments.append(temp)
+        project.comments = json.dumps(comments)
+        project.save()
+        return HttpResponse(status=201)
 
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all()
@@ -90,7 +133,6 @@ class PhotoViewSet(viewsets.ModelViewSet):
     def getPhotos(self,request,pk=None):
         photos = Photo.objects.all().filter(project=pk).values()
         data = json.dumps(list(photos))
-        print(data)
         return JsonResponse(data, safe=False)
     # def post(self,request,*args,**kwargs):
     #     print(2)
@@ -101,59 +143,6 @@ class PhotoViewSet(viewsets.ModelViewSet):
     #     Project.objects.create(project,legend,image)
     #     return HttpResponse({'message':'Project created succefully !'},status=200)
 
-
-
-
-# --------------------------------------------- Comment shit ----------------------------------------------------------
- 
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-    @action(detail=True , methods=['GET'])
-    def getComments(self,request,pk=None):
-        comments = Comment.objects.all().filter(project=pk).values('id','project','user','comment','timeSent','jaims')
-        for i in comments :
-            i['username'] = str(User.objects.get(id=i['user']))
-            # if i['jaims']!= None :
-            #     i['jaims'] =  {{"id":i['jaims'],"username":str(User.objects.get(id=i['jaims']))}}
-        data = json.dumps(list(comments),sort_keys=True,indent=1,cls=DjangoJSONEncoder)
-        print(data)
-        return JsonResponse(data, safe=False)
-
-class CommentRepondreViewSet(viewsets.ModelViewSet):
-    queryset = RepondreComment.objects.all()
-    serializer_class =RepondreCommentSerializer
-
-
-
-# <QuerySet [{'id': 1, 'project_id': 4, 'user_id': 14, 'comment': 'hello', 'jaims': 0,
-#  'timeSent': datetime.datetime(2020, 9, 13, 9, 35, 42, 200080, tzinfo=<UTC>)}]>
-def likeComment(request):
-    if request.method == "POST":
-        print(request.POST)
-        print("shit")
-        print(request.POST['uid'],'--',request.POST['id'])
-        print('maw')
-        user = get_object_or_404(User, id=request.POST['uid'])
-        comment  = get_object_or_404(Comment, id=request.POST['id'])
-        print(user,'--',comment)
-
-        if comment.jaims.filter(id=user.id).exists():
-            comment.jaims.remove(user)
-        else:
-            comment.jaims.add(user)
-        print(comment.jaims.all())
-        x={'likes':comment.jaims.all().count(),'users':list(comment.jaims.all().values('id','username'))}
-        print('@@@',x)
-
-        data = json.dumps(x)
-        print('---',data)
-        return JsonResponse(data,safe=False)
-
-#------------------------------------------------ Profile Shit ------------------------------------------------------------
-
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
@@ -162,7 +151,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
     @action(detail=True , methods=['GET'])
     def getProfile(self,request,pk=None):
-        print('mameya')
         profile = UserProfile.objects.all().filter(user=pk).values()[0]
         data = json.dumps(profile)
         return JsonResponse(data, safe=False)
@@ -205,7 +193,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
         educ[len(educ)+1] = temp
         profile.education = json.dumps(educ)
         profile.save()
-        print(educ)
         return HttpResponse(status=201)
 
     @action(detail=True , methods=['POST'], permission_classes=[IsOwner])
@@ -219,7 +206,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
         exp[len(exp)+1] = temp
         profile.experience = json.dumps(exp)
         profile.save()
-        print(exp)
         return HttpResponse(status=201)
 
     @action(detail=True , methods=['POST'], permission_classes=[IsOwner])

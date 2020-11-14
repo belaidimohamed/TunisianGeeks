@@ -20,7 +20,7 @@ export class ProjectComponent implements OnInit {
   url: any;
   id: number;
   CodeHideShow = false ;
-  baseUrlmedia = GlobalConstants.apiURL+ 'media/';
+  baseUrlmedia = GlobalConstants.apiURL + 'media/';
   constructor(  private route: ActivatedRoute, private apiGetService: ApiGetService  ,
                 private dialog: MatDialog , private alertify: AlertifyService ) {}
 
@@ -93,7 +93,6 @@ export class ProjectComponent implements OnInit {
       this.apiGetService.getScreenShots(this.id).subscribe( data => {
                                                                       this.photos = data ;
                                                                       this.photos = Array.of(JSON.parse(this.photos))[0];
-                                                                      console.log(this.photos);
                                                                       this.makeGallery(this.photos);
                                                           },
                                                   error => {this.alertify.error(error); });

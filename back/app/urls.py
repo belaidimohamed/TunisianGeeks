@@ -8,17 +8,12 @@ router = routers.DefaultRouter()
 router.register('users',UserViewSet)
 router.register('field',FieldViewSet)
 router.register('project',ProjectViewSet)
-router.register('comment',CommentViewSet)
-router.register('CommentRepondreViewSet',PhotoViewSet)
 router.register('profile',ProfileViewSet)
-
 router.register('photo',PhotoViewSet)
 
 
 urlpatterns = [
     path('',include(router.urls)),
     path('api/token/', CustomAuthToken.as_view()),
-    path('likeComment/',csrf_exempt(likeComment)),
-
 ]
  

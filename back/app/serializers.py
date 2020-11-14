@@ -26,24 +26,19 @@ class FieldSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta :
         model = Project
-        fields = ['field','title','description','code_file','bugs']
+        fields = ['field','title','description','code_file','bugs','comments']
         
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta :
         model = Photo
         fields = ['project','legend','image']
 
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta :
-        model = Comment 
-        fields = ['project','comment','user','jaims']
+# class CommentSerializer(serializers.ModelSerializer):
+#     class Meta :
+#         model = Comment 
+#         fields = ['project','comment','user','jaims']
 
-class RepondreCommentSerializer(serializers.ModelSerializer):
-    class Meta :
-        model = Comment 
-        fields = ['comment','user','reponse','jaims']
-
-class TestSerializer(serializers.ModelSerializer):
-    class Meta :
-        model = Test
-        fields = ['code_file']
+# class RepondreCommentSerializer(serializers.ModelSerializer):
+#     class Meta :
+#         model = Comment 
+#         fields = ['comment','user','reponse','jaims']

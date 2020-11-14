@@ -1,3 +1,4 @@
+import { GlobalConstants } from './../../global-constants';
 import { AuthService } from './../../_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute , Router } from '@angular/router';
@@ -11,14 +12,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./comments.component.css']
 })
 export class CommentsComponent implements OnInit {
+  pid: number ;
+  like: any = {} ;
   model: any = {};
   click = false ;
   comments: any ;
-
+  project: any ;
   onFocusComment = false ;
   onFocusCommentArea = false ;
   comment = '';
   buttonCommentMargin = 68 ;
+  baseUrlmedia = GlobalConstants.apiURL + 'media/';
 
   onclickRponse = false ;
   onFocusReponse = false ;
@@ -32,9 +36,11 @@ export class CommentsComponent implements OnInit {
               private apiGet: ApiGetService, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.comments = JSON.parse(this.route.snapshot.data.comments) ;
-    })
+    // tslint:disable-next-line: radix
+    this.route.params.subscribe(data => { this.pid = data.pId; });
+    this.apiGet.getComments(this.pid).subscribe((data: string) => {
+      this.comments = JSON.parse(data) ;
+    });
   }
 
   // --------------------------------------------- comment shit ---------------------------------------------
@@ -61,34 +67,36 @@ export class CommentsComponent implements OnInit {
     this.onFocusCommentArea = false ;
     this.click = true ;
   }
-  LikeComment(id: number) {
-    console.log('like');
-    const modelJ = new FormData();
-
-    modelJ.append('uid', localStorage.getItem('id'));
-    modelJ.append('id', JSON.stringify(id)) ;
-    this.apiPost.addLike(modelJ).subscribe(data => { console.log(data); },
-                                       error => {console.log(error); });
+  LikeComment(cid: number) {
+    this.like.commentId = cid ;
+    // tslint:disable-next-line: radix
+    this.like.userId = parseInt(localStorage.getItem('id'));
+    this.apiPost.addLike(this.like, this.pid).subscribe(
+      () => {
+              this.apiGet.getComments(this.pid).subscribe((data: string) => {
+                this.comments = JSON.parse(data) ;
+              });
+      },
+      error => {
+        console.log(error);
+        this.alertify.error(error); },
+     );
   }
   SendComment() {
-    console.log('baw');
-    this.route.params.subscribe(params => {
-      this.model.project = params.pId ;
-     });
+
     this.model.comment = this.comment ;
     // tslint:disable-next-line: radix
     this.model.user = parseInt(localStorage.getItem('id'));
-    this.apiPost.addComment(this.model).subscribe(
-      () => {  const dateTime = new Date();
-               this.comments.push({
-                 comment: this.model.comment,
-                 jaims: {},
-                 project_id: this.model.project,
-                 username: localStorage.getItem('name'),
-                 timeSent: dateTime.toISOString(),
-               });
-               console.log(this.comments);
-               this.alertify.success('Comment sent successfully'); },
+    this.model.jaims = [] ;
+    this.model.reponses = {} ;
+    this.model.time = new Date();
+
+    this.apiPost.addComment(this.model, this.pid).subscribe(
+      () => { this.alertify.success('Comment sent successfully');
+              this.apiGet.getComments(this.pid).subscribe((data: string) => {
+                this.comments = JSON.parse(data) ;
+              });
+      },
       error => {
         console.log(error);
         this.alertify.error(error); },

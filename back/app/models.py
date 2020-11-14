@@ -27,12 +27,14 @@ class Field(models.Model):
     title = models.CharField(max_length=50)
     def __str__(self):
         return self.title + ' - ' + str(self.user)
+        
 class Project(models.Model):
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     description = models.TextField(default="none")
     code_file = models.FileField(upload_to='projects/',null=True)
     bugs = models.TextField(default="No bugs found ")
+    comments = JSONField(null=True)
     def __str__(self):
         return str(self.id)+' - ' + self.title
 
@@ -43,28 +45,21 @@ class Photo(models.Model):
     def __str__(self):
         return self.legend
 
-class Comment(models.Model):
-    project =  models.ForeignKey(Project , on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    comment = models.TextField(default="")
-    jaims = models.ManyToManyField(User,default=0,blank=True,related_name='jaims')
-    timeSent = models.DateTimeField(auto_now=True)
-    def __str__(self):
-        return self.comment
+# class Comment(models.Model):
+#     project =  models.ForeignKey(Project , on_delete=models.CASCADE)
+#     user = models.ForeignKey(User,on_delete=models.CASCADE)
+#     comment = models.TextField(default="")
+#     jaims = models.ManyToManyField(User,default=0,blank=True,related_name='jaims')
+#     timeSent = models.DateTimeField(auto_now=True)
+#     def __str__(self):
+#         return self.comment
 
         
-class RepondreComment(models.Model):
-    comment =  models.ForeignKey(Comment , on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    reponse =  models.TextField(default="")
-    jaims = models.IntegerField(default=0,blank=True)
-    timeSent = models.DateTimeField(auto_now=True)
-    def __str__(self):
-        return self.reponse
-
-
-class Test(models.Model):
-    code_file = models.FileField(null=True)
-
-    def __str__(self):
-        return self.title
+# class RepondreComment(models.Model):
+#     comment =  models.ForeignKey(Comment , on_delete=models.CASCADE)
+#     user = models.ForeignKey(User,on_delete=models.CASCADE)
+#     reponse =  models.TextField(default="")
+#     jaims = models.IntegerField(default=0,blank=True)
+#     timeSent = models.DateTimeField(auto_now=True)
+#     def __str__(self):
+#         return self.reponse

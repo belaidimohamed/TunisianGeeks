@@ -1,7 +1,6 @@
 import { ProfileResolver } from './_resolvers/profile-resolver';
 import { AcceuilComponent } from './acceuil/acceuil.component';
 import { HomeNavComponent } from './homeNav/homeNav.component';
-import { CommentResolver } from './_resolvers/comment-resolver';
 import { PhotoResolver } from './_resolvers/screen-shots-resolver';
 import { ProjectResolver } from './_resolvers/project-resolver';
 import { ProjectComponent } from './project/project.component';
@@ -19,7 +18,7 @@ export const appRoutes: Routes = [
     { path: 'field/:id', component: SideNavComponent ,
       children: [{
         path: 'project/:pId', component: ProjectComponent ,
-        resolve: { project: ProjectResolver , photos: PhotoResolver , comments: CommentResolver}
+        resolve: { project: ProjectResolver , photos: PhotoResolver}
       } ] ,
     },
 

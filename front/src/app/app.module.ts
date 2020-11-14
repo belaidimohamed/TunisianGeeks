@@ -2,12 +2,12 @@ import { NavComponent } from './nav/nav.component';
 import { ScreenShotsFormComponent } from './_forms/ScreenShotsForm/ScreenShotsForm.component';
 import { SkillFormComponent } from './_forms/skillForm/skillForm.component';
 import { EditProfileComponent } from './_forms/editProfile/editProfile.component';
-import { CommentResolver  } from './_resolvers/comment-resolver';
 import { ProfileResolver } from './_resolvers/profile-resolver';
 import { CommentsComponent } from './project/comments/comments.component';
 import { PhotoResolver } from './_resolvers/screen-shots-resolver';
 import { ProjectResolver } from './_resolvers/project-resolver';
 import { SafePipe } from './project/SafePipe.pipe';
+import { ToollistPipe } from './project/comments/toollist.pipe' ;
 import { appRoutes } from './routes';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
@@ -23,7 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatIconModule, MatInputModule, MatNativeDateModule, MatSlideToggleModule } from '@angular/material';
+import { MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatIconModule, MatInputModule, MatNativeDateModule, MatSlideToggleModule, MatTooltipModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './project/project.component';
@@ -57,6 +57,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       CommentsComponent,
       ScreenShotsFormComponent,
       SafePipe,
+      ToollistPipe,
       HomeNavComponent,
       AcceuilComponent,
       EditProfileComponent,
@@ -84,12 +85,12 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     MatChipsModule,
     MatIconModule,
     MatCheckboxModule,
+    MatTooltipModule,
   ],
   providers: [
     ErrorInterceptorProvider,
     ProjectResolver,
     PhotoResolver,
-    CommentResolver,
     ProfileResolver,
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
   ],

@@ -14,12 +14,13 @@ export class ApiGetService {
   } );
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getUsers() {
-    return this.http.get(this.baseUrl + 'users/' , {headers: this.headers});
-  }
   getUser(id: number) {
     return this.http.get(this.baseUrl + 'users/' + id + '/' , {headers: this.headers});
   }
+  getUserInfo(id: number) {
+    return this.http.get(this.baseUrl + 'profile/' + id + '/getUserInfo/' , {headers: this.headers});
+  }
+
   getFields() {
     const id = localStorage.getItem('id') ;
     return this.http.get(this.baseUrl + 'field/' + id  + '/getFields/' , {headers: this.headers});
@@ -35,7 +36,7 @@ export class ApiGetService {
     return this.http.get(this.baseUrl + 'photo/' + id + '/getPhotos/' , {headers: this.headers});
   }
   getComments(id: number) {
-    return this.http.get(this.baseUrl + 'comment/' + id + '/getComments/' , {headers: this.headers});
+    return this.http.get(this.baseUrl + 'project/' + id + '/getComments/' , {headers: this.headers});
   }
   getProfile(id: number) {
     return this.http.get(this.baseUrl + 'profile/' + id + '/getProfile/' , {headers: this.headers});

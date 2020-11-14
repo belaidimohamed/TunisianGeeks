@@ -13,18 +13,24 @@
 
 <!-- ------------------------------- showing users comments  ---------------------------------------- -->
 <div *ngFor="let comment of comments">
-    <div>  
-      <img src="../../../assets/unknown.jpg" alt="Avatar" class="avatar">
-      <strong> &nbsp;{{comment.username}} </strong>  &nbsp;  &#9702;  &nbsp; <i class="time"> {{comment.timeSent}} </i> 
+    <div>
+
+      <img *ngIf="!comment.profilePicture" src="../../../assets/unknown.jpg" alt="Avatar" class="avatar">
+      <img *ngIf="comment.profilePicture" [src]="baseUrlmedia + comment.profilePicture" alt="Avatar" class="avatar">
+      <strong> &nbsp;{{comment.fullname}} </strong>  &nbsp;  &#9702;  &nbsp; <i class="time"> {{comment.time | date:'yyyy-MM-dd'}} </i> 
       <div class="comment">
           {{comment.comment}}
       </div>
     </div>
 
   <!-- like mechanisme -->
-
     <div  class="jaimeR time">
-      <a class="a" type="button" (click)="LikeComment(comment.id)">
+      <a  class="a" 
+          mat-raised-button
+          [matTooltip]="comment.jaims| toollist"
+          matTooltipPosition= 'after'
+          matTooltipClass="tooltip-list"
+          type="button" (click)="LikeComment(comment.id)">
         <i class="fa fa-thumbs-up"></i><span *ngIf="comment.jaims">&nbsp; {{comment.jaims.length}}&nbsp; </span>
       </a>
       &#9702; &nbsp; 

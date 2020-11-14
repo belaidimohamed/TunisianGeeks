@@ -28,11 +28,11 @@ export class ApiPostService {
     return this.http.post(this.baseUrl + 'photo/', model, { headers: this.headers1});
   }
 
-  addComment(model: any) {
-    return this.http.post(this.baseUrl + 'comment/', model, { headers: this.headers});
+  addComment(model: any , id: number) {
+    return this.http.post(this.baseUrl + 'project/' + id + '/addComment/', model, { headers: this.headers});
   }
-  addLike(model: any) {
-    return this.http.post(this.baseUrl + 'likeComment/' , model , { headers: this.headers1 });
+  addLike(model: any, id: number) {
+    return this.http.post(this.baseUrl + 'project/' + id + '/Like/' , model , { headers: this.headers1 });
   }
   AddProfile(model: any , id: number) {
     return this.http.post(this.baseUrl + 'profile/' + id + '/editProfile/', model, { headers: this.headers1 });
